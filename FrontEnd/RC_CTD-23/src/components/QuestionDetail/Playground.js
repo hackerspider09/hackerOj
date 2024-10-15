@@ -156,7 +156,7 @@ useEffect(() => {
 
 
                     // Establish a WebSocket connection
-                    const socket = new WebSocket(`ws://127.0.0.1/ws/submission/${data.submissionId}/`);
+                    const socket = new WebSocket(`ws://nccrc.admin.credenz.co.in/ws/submission/${data.submissionId}/`);
 
                     // Show a message when the connection is open
                     socket.onopen = () => {
@@ -254,7 +254,7 @@ useEffect(() => {
 
 
                     // Establish a WebSocket connection
-                    const socket = new WebSocket(`ws://127.0.0.1/ws/submission/${data.submissionId}/`);
+                    const socket = new WebSocket(`ws://nccrc.admin.credenz.co.in/ws/submission/${data.submissionId}/`);
 
                     // Show a message when the connection is open
                     socket.onopen = () => {

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Management</title>
+    
+    
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .alert {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1050;
+        }
+    </style>
+</head>
+<body>
+    
+    <h1>Server Management</h1>
+    
+    <!-- Add Server Form -->
+    <h2>Add Server</h2>
+    <form action="{{ url_for('routes.add_server') }}" method="post">
+        <input type="text" name="address" placeholder="Enter server address" required>
+        <input type="text" name="port" placeholder="Enter server port" required>
+        <button type="submit">Add Server</button>
+    </form>
+    
+    <!-- Server List -->
+    <h2>Server List</h2>
+    <ul>
+        {% for server in servers %}
+            <li>
+                {{ server.address }}
+                <form action="{{ url_for('routes.remove_server', id=server.id) }}" method="post" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    
+   
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <div>
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.alert').delay(1000).fadeOut('slow'); // Adjust timing as needed
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+version: '3'
+
+services:
+  
+  execute_server:
+    build: . #build the image for the web service from the dockerfile in parent directory
+    command: sh -c "python manage.py makemigrations &&
+                    python manage.py migrate &&
+                    python manage.py collectstatic --no-input &&
+                    gunicorn ExecuteServer.wsgi:application --bind 0.0.0.0:9000 -w 3 "
+    volumes:
+      - .:/home/app 
+      - /var/run/docker.sock:/var/run/docker.sock
+      # - /usr/bin/docker:/usr/bin/docker
+      - ./static:/home/app/static
+      - ./media:/home/app/media
+    depends_on:
+      # - postgres_db
+      - execute_redis
+    ports:
+      - "9000:9000" 
+    env_file:
+      - .env
+
+  execute_worker:
+    restart: unless-stopped
+    build: .
+    # command: sh -c "celery -A ExecuteServer worker --loglevel=info --concurrency 3 -E"
+    command: sh -c "celery -A ExecuteServer worker --loglevel=info --concurrency 3 -E "
+    volumes:
+        - .:/home/app
+        - /var/run/docker.sock:/var/run/docker.sock
+        - ./static:/home/app/static
+    depends_on:
+        - execute_server
+        - execute_redis
+    env_file:
+      - .env
+
+  execute_beats:
+    restart: unless-stopped
+    build: .
+    # command: sh -c "celery -A ExecuteServer worker --loglevel=info --concurrency 3 -E"
+    command: sh -c "celery -A ExecuteServer beat --loglevel=info"
+    volumes:
+        - .:/home/app
+        - /var/run/docker.sock:/var/run/docker.sock
+        - ./static:/home/app/static
+    depends_on:
+        - execute_server
+        - execute_redis
+    env_file:
+      - .env
+  
+  execute_redis:
+    restart: unless-stopped
+    image: redis:7.0.5-alpine 
+    expose:
+        - 6379
+
+        
+volumes:
+  static_volume:
+
+

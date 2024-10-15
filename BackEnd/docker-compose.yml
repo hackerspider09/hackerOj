@@ -1,0 +1,139 @@
+version: '3'
+
+services:
+# used doc : https://medium.com/@adamsokode/dockerize-django-application-with-nginx-reverse-proxy-79036606fa5
+  nginx:
+    build: ./NCC/nginx
+    volumes:
+      - ./NCC/static:/home/app/static
+      - ./NCC/media:/home/app/media
+    ports:
+      - "80:80"
+      # - "443:443"
+    depends_on:
+      - web
+      - asgi_web
+    restart: "on-failure"
+  
+  web:
+    build: ./NCC #build the image for the web service from the dockerfile in parent directory
+    command: sh -c "python manage.py makemigrations &&
+                    python manage.py migrate &&
+                    python manage.py run_celery_task &&
+                    python manage.py collectstatic --no-input &&
+                     gunicorn NCC.wsgi:application --bind 0.0.0.0:8000 -w 3 "
+    volumes:
+      - ./NCC:/home/app # map data and files from parent directory in host to microservice directory in docker containers
+      - /var/run/docker.sock:/var/run/docker.sock
+      # - /usr/bin/docker:/usr/bin/docker
+      - ./NCC/static:/home/app/static
+      - ./NCC/media:/home/app/media
+    depends_on:
+      - postgres_db
+      - redis
+    env_file:
+      - ./NCC/.env
+  
+  asgi_web:
+    build: ./NCC
+    command: sh -c "daphne -b 0.0.0.0 -p 8001 NCC.asgi:application"
+    volumes:
+      - ./NCC:/home/app
+      - ./NCC/static:/home/app/static
+      - ./NCC/media:/home/app/media
+    depends_on:
+      - redis
+    env_file:
+      - ./NCC/.env
+
+  execution_web:
+  # seperate container for execution server to call
+    build: ./NCC #build the image for the web service from the dockerfile in parent directory
+    command: sh -c "gunicorn NCC.wsgi:application --bind 0.0.0.0:8005 -w 2 "
+    volumes:
+      - ./NCC:/home/app # map data and files from parent directory in host to microservice directory in docker containers
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./NCC/static:/home/app/static
+      - ./NCC/media:/home/app/media
+    depends_on:
+      - postgres_db
+      - redis
+    env_file:
+      - ./NCC/.env
+
+  worker:
+    restart: unless-stopped
+    build: ./NCC
+    # command: sh -c "celery -A NCC worker --loglevel=info --concurrency 3 -E"
+    command: sh -c "celery -A NCC worker --loglevel=info --concurrency 3 -E "
+    volumes:
+        - ./NCC:/home/app
+        - /var/run/docker.sock:/var/run/docker.sock
+        - ./NCC/static:/home/app/static
+        - ./NCC/media:/home/app/media
+    depends_on:
+        - web
+        - redis
+    env_file:
+      - ./NCC/.env
+
+  beats:
+    restart: unless-stopped
+    build: ./NCC
+    # command: sh -c "celery -A NCC worker --loglevel=info --concurrency 3 -E"
+    command: sh -c "celery -A NCC beat --loglevel=info"
+    volumes:
+        - ./NCC:/home/app
+        - /var/run/docker.sock:/var/run/docker.sock
+        - ./NCC/static:/home/app/static
+        - ./NCC/media:/home/app/media
+    depends_on:
+        - web
+        - redis
+    env_file:
+      - ./NCC/.env
+  
+  redis:
+    restart: unless-stopped
+    image: redis:7.0.5-alpine 
+    expose:
+        - 6379
+
+  # app:
+  #       image: "jc21/nginx-proxy-manager:latest"
+  #       restart: unless-stopped
+  #       ports:
+  #           - "80:80"
+  #           - "81:81"
+  #           - "443:443"
+  #       volumes:
+  #           - ../data:/data
+  #           - ../letsencrypt:/etc/letsencrypt
+
+  postgres_db:
+    image: postgres:13.0-alpine
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    expose:
+      - 5432
+
+  # dispatcher_server:
+  #   build: ./DispatcherServer
+  #   volumes:
+  #     - ./DispatcherServer:/home/app
+  #   ports:
+  #     - "5000:5000"
+    # env_file:
+    #   - ./DispatcherServer/server/.env
+
+      
+volumes:
+  static_volume:
+  postgres_data:
+
+

@@ -1,0 +1,16 @@
+body {
+    display:flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  /* overflow-y: scroll; */
+  /* background: linear-gradient(45deg,#141e30,#355780); */
+  background: linear-gradient(45deg,rgb(247, 5, 5),#355780);
+
+}
+
+
+.App-container {
+  flex:1;
+ 
+}

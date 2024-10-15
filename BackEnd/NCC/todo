@@ -1,0 +1,51 @@
+//25-07-23
++ celery done.
++ small bug (user get wrong ans sometime) when multiple request happens.
+
+
+
+
+
+ celery -A NCC.celery worker --loglevel=debug --concurrency=2
+
+
+ // 9-11-23
+ + stress check 
+ from locust import HttpUser, TaskSet, task, between
+from faker import Faker
+
+fake = Faker()
+
+class MyTaskSet(TaskSet):
+    def on_start(self):
+        # Called when a user starts executing the task set.
+        # You can perform any setup operations here, like login.
+
+        # Replace 'your_username' and 'your_password' with actual credentials
+        self.login()
+
+    def login(self):
+        response = self.client.post('/api/token/', {
+            'username': 'your_username',
+            'password': 'your_password',
+        })
+
+        if response.status_code == 200:
+            # Extract the JWT token from the response and set it for future requests
+            self.client.headers.update({'Authorization': f'Bearer {response.json()["access_token"]}'})
+        else:
+            print(f"Login failed with status code: {response.status_code}")
+
+    @task(1)
+    def my_api_request(self):
+        # Make your API requests here
+        response = self.client.get('/your/api/endpoint/')
+        print(f"Response status code: {response.status_code}")
+
+class MyUser(HttpUser):
+    tasks = [MyTaskSet]
+    wait_time = between(5, 15)  # Random wait time between requests
+
+// 10/08/24
+
+- for submit2  api handle point distriution 

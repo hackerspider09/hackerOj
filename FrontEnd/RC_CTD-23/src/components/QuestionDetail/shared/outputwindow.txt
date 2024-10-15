@@ -1,0 +1,79 @@
+# for old api submit2 run2
+
+
+import React,{useEffect} from "react";
+import { useCustomContext } from "../../../context/CustomeContext";
+
+const OutputWindow = ({ outputDetails }) => {
+  const { confetiStart,setConfetistart } = useCustomContext();
+
+
+  const difficultyColors = {
+    'OA' : 'bg-red-500' ,
+    'WA': 'bg-orange-500' ,
+    'AC': 'bg-green-500'
+};
+
+useEffect(() => {
+  // setConfetistart(true);
+  if (outputDetails?.submitted && outputDetails?.finalStat==="AC") {
+    console.log("zulmule")
+    setConfetistart(true);
+    const timer = setTimeout(() => {
+      setConfetistart(false);
+    }, 5000);
+
+    // Clear the timer and set isActive to false when component unmounts or when the status changes
+    return () => clearTimeout(timer);
+  }
+}, [outputDetails?.submitted]);
+
+  return (
+    <div className="!w-full flex-grow flex flex-col ">
+      <h3 className="font-bold text-lg mb-2">Output</h3>
+      
+      {outputDetails?
+        (outputDetails.submitted ? (
+          <div className="w-full flex flex-col flex-grow bg-dark-2 rounded-lg text-white p-2 font-mono text-sm overflow-y-auto">
+            <p className="text-lg">
+              Status:{" "}
+              <span
+                className={`${outputDetails.finalStat==="AC" ? "text-green-500" : "text-red-500"}`}
+              >
+                {outputDetails.finalStat}
+              </span>
+            </p>
+            {!outputDetails.accepted && (
+              <div className="w-full  flex flex-col flex-grow bg-dark-2 rounded-lg text-white p-2 font-mono text-sm overflow-y-auto">
+                <div className="w-full flex flex-wrap">
+
+                {outputDetails?.status && Object.entries(outputDetails.status).map(([testCaseName, testCaseData]) => (
+                  
+                  // <span className={` ${outputDetails.finalStat==="AC" ? "text-green-500" : "text-red-500"}`} key={testCaseName} >
+                  //   TESTCASE{testCaseName} &nbsp; {testCaseData} &nbsp; 
+                  // </span>
+                  <div key={testCaseName} className={`inline-block w-fit my-1 mx-auto px-2 py-1 rounded-full text-sm text-light-1 ${ testCaseData ==='AC' || testCaseData ==='WA'  ? difficultyColors[testCaseData] : difficultyColors['OA'] }`}>
+                    TESTCASE{testCaseName} &nbsp;{testCaseData} 
+                  </div>
+                ))}
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="w-full flex flex-col flex-grow bg-dark-2 rounded-lg text-white p-2 font-mono text-sm overflow-y-auto">
+
+            <textarea
+              value={outputDetails.error ? outputDetails.error : outputDetails.output}
+              className="flex-grow bg-dark-2 resize-none"
+              disabled
+            ></textarea>
+            </div>
+        )) : (
+          <div className="w-full flex flex-col flex-grow bg-dark-2 rounded-lg text-white p-2 font-mono text-sm overflow-y-auto" />
+        )}
+    </div>
+  );
+};
+
+export default OutputWindow;

@@ -1,0 +1,11 @@
+.mobilepanti{
+    margin:auto;
+    border: 5px solid white;
+    text-align: center;
+    width:80%;
+    height :20%;
+    padding-top:50px;
+    font-size: larger;
+    background-color:rgb(37, 17, 49);
+    border-radius:5px;
+}

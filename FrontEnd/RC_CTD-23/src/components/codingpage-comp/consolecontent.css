@@ -1,0 +1,97 @@
+.chaljabhai {
+    /* margin: 55px 20px 20px 20px; */
+    color: white; 
+    /* margin-bottom:16.625rem;    */
+    background-color: rgb(6, 20, 52);  
+    /* display: grid;   */
+    align-items: flex-start;   
+    justify-content: flex-end;   
+    position: absolute;  
+    box-shadow: 3px 3px 3px rgb(50, 49, 49);  
+   
+    
+    
+    border:1px solid white;
+    border-radius: 7px;
+    justify-content: center;
+    /* display: flex;
+    flex-direction: row; */
+}
+
+.consoleBlocks{
+ display: flex;
+    flex-direction: row; 
+  
+  padding-top: 0px;
+  margin-top: 0px;
+  margin-bottom: 14px;
+}
+
+  .status{
+    display: flex;
+    flex-direction:row;
+  }
+  .alltext{
+    display: flex;
+    flex-direction: row;
+   justify-content: space-between;
+    align-items: center;
+  }
+
+ .Inputdetails{
+ /* width: 16.625rem; */
+ width: 20rem;
+  height:100%;
+ }
+
+ .Outputdetails{
+  /* width: 16.625rem; */
+  width: 20rem;
+  height:100%;
+ }
+ 
+#input1{
+  height:140px;
+}
+
+.header{
+  display: flex;
+  justify-content:space-between;
+}
+
+.closebtn3{
+  outline: 0;
+  grid-gap: 8px;
+  align-items: center;
+  background: 0 0;
+  border: 0.5px solid #686161; 
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: 16px;
+  gap: 8px;
+  justify-content: center;
+  line-height: 1.2;
+  overflow: hidden;
+  padding: 6px 10px;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  transition: all .14s ease-out;
+  white-space: nowrap;
+ color: white;
+margin-top:0.8%;
+}
+
+.closebtn3:hover {
+  box-shadow: 2px 2px 0 #ffffff;
+  transform: translate(-3px,-3px);
+}
+.closebtn3:focus-visible{
+  outline-offset: 1px;
+}
+
+.test{
+  border-radius:5px;
+  padding: 2px 2px 2px 2px;
+}

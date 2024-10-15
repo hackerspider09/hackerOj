@@ -1,0 +1,116 @@
+// api for submit2 run2
+
+# run2
+const handleRun = async (input) => {
+ 
+    
+    setIsCodeRunning(true);
+    const submissionpayload = {
+  
+      'question':`${clickedProblemId}`,
+      'code':`${code}`,
+      'language': `${language.value}`,
+    }
+
+    if(input ===  '')
+    {
+        submissionpayload['input']=clickedProblem.sampleIp;
+    }else{
+      submissionpayload['input']=input;
+    }    
+    // e.preventDefault();
+    console.log(submissionpayload)
+    axiosAuthInstance.post(runendPoint,submissionpayload)
+            .then((response) => {
+                if (response) {
+                   var  data = response.data;
+                   console.log("run data",data)
+                   data['submitted']=false;
+                    setOutputDetails(data)
+                    setIsCodeRunning(false);
+
+                  
+                }
+                else {
+                      setIsCodeRunning(false);                      
+                    }
+                })
+                .catch((error) => {
+                    setIsCodeRunning(false);
+                    if (error.response?.data?.msg) {
+                      toast.error(error.response.data.msg, { 
+                          type: "error", 
+                          isLoading: false, 
+                          autoClose: 3000 
+                      });
+                  } else {
+                      toast.error("An error occurred. Please try again later.", { 
+                          type: "error", 
+                          isLoading: false, 
+                          autoClose: 3000 
+                      });
+                  }
+                  
+            })
+  
+  };
+
+
+
+#submit2
+
+const handleSubmit = async () => {
+    setIsCodeSubmitting(true); 
+
+    const submissionpayload = {
+  
+      'question':`${clickedProblemId}`,
+      'code':`${code}`,
+      'language': `${language.value}`,
+      
+    }
+    console.log(submissionpayload)
+    axiosAuthInstance.post(subendPoint,submissionpayload)
+            .then((response) => {
+                // console.log("enter in then ");
+                if (response) {
+                    setIsCodeSubmitting(false);
+                    // console.log("enter in then if ");
+                   var  data = response.data;
+                   data['submitted']=true;
+                   console.log(" op => ",data)
+                   setOutputDetails(data);
+                   if (data?.submitted && data?.finalStat==="AC") {
+                    console.log("zulmule")
+                    setConfetistart(true);
+                    const timer = setTimeout(() => {
+                      setConfetistart(false);
+                    }, 5000);
+                //    setOutputDetails({ output: "Accepted", submitted: true, accepted: true });
+                  }
+                  else {
+                    setIsCodeSubmitting(false);
+                  }
+                   
+                }})
+                .catch((error) => {
+                    setIsCodeSubmitting(false);
+                    if (error.response?.data?.msg) {
+                        toast.error(error.response.data.msg, { 
+                            type: "error", 
+                            isLoading: false, 
+                            autoClose: 3000 
+                        });
+                    } else {
+                        toast.error("An error occurred. Please try again later.", { 
+                            type: "error", 
+                            isLoading: false, 
+                            autoClose: 3000 
+                        });
+                    }
+                  
+                // console.log("enter in error ",error);
+
+            })
+  
+  };

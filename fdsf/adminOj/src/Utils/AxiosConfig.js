@@ -1,6 +1,6 @@
 import axios from "axios";
 // export const CONTEST_ID = "96e83";
-let CONTEST_ID = "3d1ce";
+let CONTEST_ID = "15693";
 
 
 if (localStorage.getItem('contestId')){
@@ -10,8 +10,8 @@ if (localStorage.getItem('contestId')){
 
 
 // export const API_URL = "https://clashrc.admin.credenz.in";
-export const API_URL = "http://127.0.0.1";
-export const API_DOMAIN = "127.0.0.1";
+export const API_URL = "https://nccrc.admin.credenz.co.in";
+export const API_DOMAIN = "nccrc.admin.credenz.co.in";
 
 
 const axiosNoAuthInstance = axios.create({

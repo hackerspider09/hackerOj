@@ -12,8 +12,8 @@ if (localStorage.getItem('contestId')){
 // export const API_URL = "https://clashrc.admin.credenz.in";
 export const API_URL = "https://nccrc.admin.credenz.co.in";
 export const API_DOMAIN = "nccrc.admin.credenz.co.in";
-export const CLASHID = "3d1ce";
-export const RCID = "a0184"
+export const CLASHID = "15693";
+export const RCID = "16c24"
 
 
 const axiosNoAuthInstance = axios.create({

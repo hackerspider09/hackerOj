@@ -242,9 +242,9 @@ CELERY_RESULT_BACKEND = f'{REDIS_HOST}:{REDIS_PORT}'
 CORS_ORIGIN_ALLOW_ALL = True
     
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000',
-    'http://127.0.0.1:8000',
-    'https://clashrc.admin.credenz.in',
+    # 'http://localhost:3000',
+    # 'http://127.0.0.1:8000',
+    'https://nccrc.ctd.credenz.co.in',
 ]
 
 

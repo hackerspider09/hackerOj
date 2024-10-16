@@ -157,8 +157,19 @@ class CallbackApiForExecutionServer(APIView):
                     except Exception as e:
                         print("None value is returing ",e)
                         pass
-
                 submission.save()
+
+                if(mode=='RC'):
+                    try:
+                        questionQuery = modelsQu.Question.objects.get(questionId=submission.question)
+                        redis_key = f"{questionQuery.questionId}:{input_data}"
+                        redis_client.hset(questionQuery.questionId, input_data, submission.output)
+                        redis_client.expire(redis_key, timedelta(seconds=20))
+                        submission.delete()
+                    except Exception as e:
+                        print(e)
+
+                
 
                 # Send the submission data to the WebSocket group
                 channel_layer = get_channel_layer()
@@ -408,28 +419,30 @@ def get_result_from_cache(question_id, input_value):
     return None
 
 
+
 class RunRc(generics.GenericAPIView):
 
-    queryset = Submission.objects.all()
     serializer_class = RcSubmissionSerializer
     renderer_classes = [JSONRenderer]
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated,TimecheckGlobal]
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = 'rc'
-        
-    def post(self, request, *args, **kwargs):
 
+    def post(self, request, *args, **kwargs):
+        print(request.data)
         serializer = self.serializer_class(data=request.data)
-        
+        contest_id = self.kwargs['contestId']
+        data = request.data
+
         if serializer.is_valid():
             question = serializer.validated_data['question']
-            input = serializer.validated_data['input']
+            user_input = serializer.validated_data['input']
 
             # 1st tryfrom cache if ans is stored or not
             print("checking op")
             try:
-                cached_op = get_result_from_cache(question, input)
+                cached_op = get_result_from_cache(question, user_input)
                 if cached_op is not None:
                     print("cached op is present")
                     serializer.validated_data['output'] = cached_op
@@ -439,30 +452,64 @@ class RunRc(generics.GenericAPIView):
                 pass
             print("cached op is not present")
 
-            container = getContainer()
+
+            user = self.request.user
+            userId = user.id
+            team = Team.objects.get(Q(user1 = user) | Q(user2 = user),contest=contest_id)
+            question = get_object_or_404(Question, questionId=question)
+            correct_code = get_object_or_404(CorrectCode,question=question)
+            contest = get_object_or_404(Contest, contestId=contest_id)
 
             try:
-                if not container:
-                    return   Response({'msg':"Server is Busy"},status=status.HTTP_403_FORBIDDEN)
-            
-                print("*******Rc IP OP functnality ******")
-                codeStatus=  RunRcUtil(question,input,container)
-                # print("ffff => ",codeStatus['output'])
-                serializer.validated_data['output'] = codeStatus
-                codeStatus.update(serializer.data)
+                print("*******Valid but not saved*******")
 
-                # Storing op in redis
-                redis_client.hset(question, input, codeStatus['output'])
-                # codeStatus = serializer.data
-                # print("responce => ",codeStatus)
-                deallocate(container)
-                return Response(codeStatus)
+                submission = Submission.objects.create(
+                    mode='RC',
+                    status='PEN',
+                    team=team,
+                    contest=contest,
+                    input=user_input,
+                    code=correct_code.correct_code,
+                    question=question,
+                    language=correct_code.language
+                )
+
+                payload = {
+                    'submissionId': submission.id,
+                    'code': correct_code.correct_code, 
+                    'language': correct_code.language,  
+                    'timeLimit': question.timeLimit,  
+                    'question': question.questionId,
+                    'input':user_input
+                }
+
+                try:
+                    server = getExecutionServer()
+                    if not server:
+                        return Response({'msg':"No available servers"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+                    server_ip = server['ip_address']
+                    server_port = server['port']
+
+                    server_url = f"http://{server_ip}:{server_port}/core/runrcsubmission/"  
+                    print("api rquest started",server_url)
+                    response = requests.post(server_url, data=payload)
+                    json_response = response.json() 
+
+                    return Response({'msg': json_response.get('msg'),'submissionId':submission.id},status=status.HTTP_200_OK)
+
+
+                except Exception as e:
+                    print("RequestException:", e)
+                    return Response({'msg': "Error communicating with Server"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
             
-            except:
-                deallocate(container)
-                return Response({'msg':"Server is Busy."})
-            
-        return Response(serializer.validated_data, status=status.HTTP_200_OK)
+            except Exception as e:
+                print("Error :", e)
+                return Response({'msg':"Internal server error"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+        return Response(serializer.validated_data, status=status.HTTP_400_BAD_REQUEST)
 
 
 

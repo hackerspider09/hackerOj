@@ -59,7 +59,7 @@ export default function Login() {
             // toast.success('This is Toast Notification for Dark');
             // toast.warn('This is Toast Notification for Warn');
             // toast.error('This is Toast Notification for Error');
-            const id = toast.loading("Plean wait..");  
+            const id = toast.loading("Please wait..");  
             if (!isToggled){
               setContestID(CLASHID);
             }else{

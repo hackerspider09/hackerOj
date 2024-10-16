@@ -283,8 +283,10 @@ def process_run_submission(submission_id):
         try:
             callBackApiFunction(submission)
         except Exception as e:
+            print("error => ",e)
             print("error in updating submission in main server")
 
     except Exception as e:
+        print("error => ",e)
         print(f"Error processing submission {submission_id}: {e}")
 

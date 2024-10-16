@@ -91,6 +91,7 @@ def judge(processor, source, tests, config=None, client=None):
         detach=True,
         tty=True,
         network_disabled=not config.get("network"),
+        mem_limit="256m"   #to add mem limit
     )
     try:
         return run(container, processor, source, tests, config)

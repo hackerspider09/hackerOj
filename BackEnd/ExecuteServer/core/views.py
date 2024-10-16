@@ -85,12 +85,47 @@ class RunQuestion(viewsets.GenericViewSet,mixins.CreateModelMixin):
         
         data = request.data
 
-        # print("=> Requested Data ",data)
+        print("=> Requested Data ",data)
         serializer = SubmissionSerializer(data=data)
         if serializer.is_valid():            
             try:
                     
                 serializer.validated_data['mode'] = "RUN"
+                serializer.validated_data['status'] = "PEN"
+                serializer.validated_data['isCorrect'] = False
+                submission = serializer.save()
+
+                process_run_submission.delay(submission.id)
+
+
+                # print(question.questionId)    #to get question id from question 
+                # delete_container.delay(obj_id)
+                return Response({'msg': "Submission queued", 'submission_id': submission.id},status=status.HTTP_202_ACCEPTED)
+            except Exception as e:
+                print(e)
+                # deallocate(container)
+                print("some wong")
+                return Response({'msg':"Internal server error"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            print("*******Invalid*******")
+            # print(request.data)
+            return Response({'msg':serializer.errors},status=status.HTTP_400_BAD_REQUEST)
+
+
+class RunRCQuestion(viewsets.GenericViewSet,mixins.CreateModelMixin):
+    queryset = Submission.objects.all()
+    serializer_class = SubmissionSerializer
+
+    def create(self, request, *args, **kwargs):
+        
+        data = request.data
+
+        print("=> Requested Data ",data)
+        serializer = SubmissionSerializer(data=data)
+        if serializer.is_valid():            
+            try:
+                    
+                serializer.validated_data['mode'] = "RC"
                 serializer.validated_data['status'] = "PEN"
                 serializer.validated_data['isCorrect'] = False
                 submission = serializer.save()

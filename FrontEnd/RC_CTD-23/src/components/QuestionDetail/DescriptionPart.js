@@ -29,9 +29,10 @@ export default function DescriptionPart({questionData}) {
 
     const TakeIpOp = (input) => {
         setIsCodeRunning(true);
+        const id = toast.loading("Please wait..");  
        console.log("RC run");
        
-         const takeIpopEndpoint = `submission/${CONTEST_ID}/runrccode2/`;
+         const takeIpopEndpoint = `submission/${CONTEST_ID}/runrccode/`;
          const takeipoppayload = {
    
              'question':`${QuestionId}`,
@@ -43,14 +44,81 @@ export default function DescriptionPart({questionData}) {
        .then((response) => {
            // console.log("enter in then ");
            if (response) {
-            setIsCodeRunning(false);
-            let data = response.data;
-            setCustomOutput(data.output)
-               console.log(response.data);
+            // setIsCodeRunning(false);
+            // let data = response.data;
+            // setCustomOutput(data.output)
+            //    console.log(response.data);
+
+               var  data = response.data;
+                   console.log("run data",data)
+
+                   if(data?.output){
+                        setCustomOutput(data.output)
+                        toast.update(id, { render:"Done", type: "success", isLoading: false, autoClose:3000 })
+                        setIsCodeRunning(false);
+                        return
+                   }
+                   data['submitted']=false;
+                    
+                    // submission queued
+                    toast.update(id, { render: data.msg, type: "success" })
+                    
+
+
+                    // Establish a WebSocket connection
+                    const socket = new WebSocket(`wss://nccrc.admin.credenz.co.in/ws/submission/${data.submissionId}/`);
+
+                    // Show a message when the connection is open
+                    socket.onopen = () => {
+                      console.log('WebSocket connection established');
+                    };
+
+                    // Handle messages received through the WebSocket
+                    socket.onmessage = (event) => {
+                      
+                      const messageData = JSON.parse(event.data);
+                      console.log('Received message:', messageData);
+
+                      switch (messageData.type) {
+                          case 'status_update':
+                            console.log('Status update:', messageData);
+                            toast.update(id, { render: messageData.submission_data.status, type: "success"})
+                              // Handle status update message
+                              // Update your React state with the status data
+                              break;
+
+                          case 'final_status':
+                              toast.update(id, { render: "Submission Executed Successfuly", type: "success", isLoading: false, autoClose:3000 })
+                              // Handle final submission data message
+                              setCustomOutput(messageData.submission_data.output)
+                              console.log('Final submission data:', messageData.submission_data);
+                              // Update your React state with the final submission data
+                              socket.close();
+                              break;
+                              
+                          default:
+                                console.error('Unknown message type:', messageData);
+                                toast.update(id, { render: "Something Went Wrong", type: "error", isLoading: false, autoClose:3000 })
+                      }
+                    };
+
+                    // Handle WebSocket errors
+                    socket.onerror = (error) => {
+                      console.error('WebSocket error:', error);
+                      toast.update(id, { render:"WebSocket error occurred. Please try again.", type: "error", isLoading: false, autoClose:3000 })
+                    };
+
+                    // Handle WebSocket closure
+                    socket.onclose = () => {
+                      console.log('WebSocket connection closed');
+                    };
+
+                    setIsCodeRunning(false);
+
                // toast.update(id, { render: "Build Process Finished", type: "success", isLoading: false, autoClose:3000 })
                // <Navigate to="/instruction" />
                // window.location.reload(true);
-           
+            
            }
            else {
             setIsCodeRunning(false);
@@ -63,17 +131,9 @@ export default function DescriptionPart({questionData}) {
         // console.clear();
            console.log(" error => ",error.response);
            if (error.response?.data?.msg) {
-            toast.error(error.response.data.msg, { 
-                type: "error", 
-                isLoading: false, 
-                autoClose: 3000 
-            });
-        } else {
-            toast.error("An error occurred. Please try again later.", { 
-                type: "error", 
-                isLoading: false, 
-                autoClose: 3000 
-            });
+            toast.update(id, { render:error.response.data.msg, type: "error", isLoading: false, autoClose:3000 })
+          } else {
+            toast.update(id, { render:"An error occurred. Please try again later.(check input block should not blank)", type: "error", isLoading: false, autoClose:3000 })
         }
        
        })
@@ -153,7 +213,7 @@ export default function DescriptionPart({questionData}) {
                         
                         <button
                             onClick={() => TakeIpOp(customInput)}
-                            disabled={!customInput}
+                            disabled={!customInput.trim()}
                             className={`px-4 py-2  bg-dark-4 text-light-1 mt-2 rounded-lg text-sm`}
                             >
                             {isCodeRunning ? <Loader /> : "Get O/P"}

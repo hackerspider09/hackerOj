@@ -23,7 +23,8 @@ class Submission(models.Model):
     modeChoice = (
         ('RUN','Run Submission'),
         ('SUB','Submit Submission'),
-        
+        ('RC','RC Submission'),
+
     )
     mode = models.CharField(max_length=5,choices=modeChoice,blank=True,null=True)
     statusChoice = (

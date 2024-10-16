@@ -125,7 +125,7 @@ useEffect(() => {
   }, [code,customInput]);
 
   const handleRun = async (input) => {
-    const id = toast.loading("Plean wait..");  
+    const id = toast.loading("Please wait..");  
 
     setIsCodeRunning(true);
     const submissionpayload = {
@@ -226,7 +226,7 @@ useEffect(() => {
   const handleSubmit = async () => {
     setOutputDetails({});
     setIsCodeSubmitting(true); 
-    const id = toast.loading("Plean wait..");  
+    const id = toast.loading("Please wait..");  
 
     const submissionpayload = {
   

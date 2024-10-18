@@ -46,7 +46,7 @@ const [Qdata, setQdata] = useState(tasks);
               .catch((error) => {
                 // nav("/question");
               // console.log("enter in error ",error);
-              // console.clear();
+              console.clear();
 
 
             })

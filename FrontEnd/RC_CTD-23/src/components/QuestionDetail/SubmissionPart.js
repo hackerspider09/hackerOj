@@ -57,7 +57,7 @@ const SubmissionPart = ({questionId}) => {
                     // console.log("enter in then ");
                     if (response.status) {
                         // console.log("enter in then if ");
-                        console.log(response.data);
+                        // console.log(response.data);
                         
                         setSubdata(response.data)
                     }

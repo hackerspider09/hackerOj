@@ -26,7 +26,7 @@ const AnimatedCounter = ({ targetNumber }) => {
 
 const OutputWindow = ({ outputDetails }) => {
   const { confetiStart,setConfetistart } = useCustomContext();
-  console.log(outputDetails)
+  // console.log(outputDetails)
 
   const difficultyColors = {
     'OA' : 'bg-red-500' ,
@@ -37,7 +37,7 @@ const OutputWindow = ({ outputDetails }) => {
 useEffect(() => {
   // setConfetistart(true);
   if (outputDetails?.submitted && outputDetails?.finalStat==="AC") {
-    console.log("zulmule")
+    // console.log("zulmule")
     setConfetistart(true);
     const timer = setTimeout(() => {
       setConfetistart(false);

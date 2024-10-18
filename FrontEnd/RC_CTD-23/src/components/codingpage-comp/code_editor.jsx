@@ -35,7 +35,7 @@ const CodeEditorWindow = ({ onChange, language, code, theme ,questionId,setCode 
   // console.log("On editor : ", questionId)
   useEffect(() => {
     // Load content from local storage
-    console.log(questionId,language);
+    // console.log(questionId,language);
     const storedCode = localStorage.getItem(questionId+language);  
     if (storedCode) {
       setValue(storedCode);  

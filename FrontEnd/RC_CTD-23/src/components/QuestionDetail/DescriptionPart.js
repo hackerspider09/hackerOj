@@ -30,7 +30,7 @@ export default function DescriptionPart({questionData}) {
     const TakeIpOp = (input) => {
         setIsCodeRunning(true);
         const id = toast.loading("Please wait..");  
-       console.log("RC run");
+    //    console.log("RC run");
        
          const takeIpopEndpoint = `submission/${CONTEST_ID}/runrccode/`;
          const takeipoppayload = {
@@ -50,7 +50,7 @@ export default function DescriptionPart({questionData}) {
             //    console.log(response.data);
 
                var  data = response.data;
-                   console.log("run data",data)
+                //    console.log("run data",data)
 
                    if(data?.output){
                         setCustomOutput(data.output)
@@ -70,18 +70,18 @@ export default function DescriptionPart({questionData}) {
 
                     // Show a message when the connection is open
                     socket.onopen = () => {
-                      console.log('WebSocket connection established');
+                    //   console.log('WebSocket connection established');
                     };
 
                     // Handle messages received through the WebSocket
                     socket.onmessage = (event) => {
                       
                       const messageData = JSON.parse(event.data);
-                      console.log('Received message:', messageData);
+                    //   console.log('Received message:', messageData);
 
                       switch (messageData.type) {
                           case 'status_update':
-                            console.log('Status update:', messageData);
+                            // console.log('Status update:', messageData);
                             toast.update(id, { render: messageData.submission_data.status, type: "success"})
                               // Handle status update message
                               // Update your React state with the status data
@@ -91,7 +91,7 @@ export default function DescriptionPart({questionData}) {
                               toast.update(id, { render: "Submission Executed Successfuly", type: "success", isLoading: false, autoClose:3000 })
                               // Handle final submission data message
                               setCustomOutput(messageData.submission_data.output)
-                              console.log('Final submission data:', messageData.submission_data);
+                            //   console.log('Final submission data:', messageData.submission_data);
                               // Update your React state with the final submission data
                               socket.close();
                               break;
@@ -110,7 +110,7 @@ export default function DescriptionPart({questionData}) {
 
                     // Handle WebSocket closure
                     socket.onclose = () => {
-                      console.log('WebSocket connection closed');
+                    //   console.log('WebSocket connection closed');
                     };
 
                     setIsCodeRunning(false);
@@ -128,8 +128,8 @@ export default function DescriptionPart({questionData}) {
        })
        .catch((error) => {
         setIsCodeRunning(false);
-        // console.clear();
-           console.log(" error => ",error.response);
+        console.clear();
+        //    console.log(" error => ",error.response);
            if (error.response?.data?.msg) {
             toast.update(id, { render:error.response.data.msg, type: "error", isLoading: false, autoClose:3000 })
           } else {
@@ -196,7 +196,7 @@ export default function DescriptionPart({questionData}) {
                     )}
                 </div> */}
 
-                <div className="flex  flex-grow my-2 mx-5">
+                <div className="flex min-h-[30%] flex-grow my-2 mx-5">
                     {
                             localStorage.getItem('contestName') ==='RC' &&
 

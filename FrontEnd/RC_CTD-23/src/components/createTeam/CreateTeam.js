@@ -69,7 +69,7 @@ const CreateTeam = () => {
 
   const registerUser = (details) => {
     details.contestId = contestID;
-    console.log(details)
+    // console.log(details)
     const registerEndpoint = `/player/createteam/${contestID}/`;
     const id = toast.loading("Please wait...");
 
@@ -87,12 +87,12 @@ const CreateTeam = () => {
                 }
                 else {
                     toast.update(id, { render: response.data.error, type: "error", isLoading: false, autoClose:3000 })
-                    console.log("login failed");
+                    // console.log("login failed");
                     // console.clear();
                 }
             })
             .catch((error) => {
-              console.log("enter in error +",error);
+              // console.log("enter in error +",error);
               // toast.update(id, { render: error.response.data.msg[0], type: "error", isLoading: false, autoClose:3000 })
               // console.clear();
               if (error.response?.data?.msg){

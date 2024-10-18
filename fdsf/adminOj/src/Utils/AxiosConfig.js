@@ -40,7 +40,7 @@ axiosAuthInstance.interceptors.response.use(
         return response;
     },
     (error) => {
-        console.log("erro rfrom axios conf",error)
+        // console.log("erro rfrom axios conf",error)
         if (error.response && error.response.status === 401) {
             
             // Unauthorized access, redirect to login page

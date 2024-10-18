@@ -15,7 +15,7 @@ function Hero() {
     try {
       const res = await axiosAuthInstance.get(`/question/${CONTEST_ID}/questions/`);
       setques(res.data);
-      console.log(res.data);
+      // console.log(res.data);
       setText(res.data[0]);
     } catch (error) {
       setIsError(error.message);

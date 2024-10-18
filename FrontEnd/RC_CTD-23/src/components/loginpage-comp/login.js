@@ -67,14 +67,14 @@ export default function Login() {
             }
             loginPayload.contestId = contestID;
             setTimeout(() => {
-              console.log(endPoint)
-              console.log(loginPayload)
+              // console.log(endPoint)
+              // console.log(loginPayload)
               axiosNoAuthInstance.post(endPoint,loginPayload)
             .then((response) => {
                 // console.log("enter in then ");
                 if (response.status) {
                     // console.log("enter in then if ");
-                    console.log(response)
+                    // console.log(response)
                     setLoginBtnClick(false);
                     toast.update(id, { render: "Login Successful.", type: "success", isLoading: false, autoClose:3000 })
                     localStorage.setItem("isLogin", true);
@@ -105,8 +105,8 @@ export default function Login() {
                   setIsToggled(false)
                   setContestID(CLASHID)
 
-                  // console.clear();
-                console.log("enter in error +",error);
+                  console.clear();
+                // console.log("enter in error +",error);
                 if (error.response?.data?.msg){
                   toast.update(id, { render: error.response.data.msg , type: "error", isLoading: false, autoClose:3000 })
                 }else if(error.response?.data?.detail){

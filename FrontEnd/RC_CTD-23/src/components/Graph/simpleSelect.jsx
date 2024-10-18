@@ -24,7 +24,7 @@ const SimpleSelect = (props) => {
         pos: props.pos,
     });
     const handleChange = (event) => {
-        console.log(state.pos);
+        // console.log(state.pos);
         setAge(event.target.value);
         props.onValueChanged(state.pos, event.target.value);
     };

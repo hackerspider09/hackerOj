@@ -164,7 +164,7 @@ class CallbackApiForExecutionServer(APIView):
                         questionQuery = modelsQu.Question.objects.get(questionId=submission.question)
                         redis_key = f"{questionQuery.questionId}:{input_data}"
                         redis_client.hset(questionQuery.questionId, input_data, submission.output)
-                        redis_client.expire(redis_key, timedelta(seconds=20))
+                        redis_client.expire(questionQuery.questionId, timedelta(seconds=20))
                         submission.delete()
                     except Exception as e:
                         print(e)

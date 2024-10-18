@@ -119,7 +119,7 @@ export default function Codingpage() {
                 }
             })
             .catch((error) => {
-              console.log(error)
+              // console.log(error)
               nav("/question");
               // console.log("enter in error ",error);
               
@@ -133,7 +133,7 @@ export default function Codingpage() {
   const handleSubmit = async (val) => {
     const id = toast.loading("Processing your code...");
     setExecutedData([]);
-    console.log("submission start")
+    // console.log("submission start")
     setisSubmit(true);
     setConsoleMenuOpen(!ConsoleMenuOpen);
     {ConsoleMenuOpen ?  setConsoleMenuOpen(ConsoleMenuOpen) : setConsoleMenuOpen(!ConsoleMenuOpen)}
@@ -156,14 +156,14 @@ export default function Codingpage() {
     // console.log("submission payload ",submissionpayload)
     
     // e.preventDefault();
-    console.log(submissionpayload)
+    // console.log(submissionpayload)
     axiosAuthInstance.post(subendPoint,submissionpayload)
             .then((response) => {
                 // console.log("enter in then ");
                 if (response) {
                     // console.log("enter in then if ");
                    var  data = response.data;
-                   console.log(" op => ",data)
+                  //  console.log(" op => ",data)
                    setExecutedData(data);
                     // console.log("submission output ",data);
                     // console.log(typeof(data));
@@ -197,7 +197,7 @@ export default function Codingpage() {
   const handleRun = async () => {
     const id = toast.loading("Processing your code...");
     setExecutedData([]);
-    console.log("run start")
+    // console.log("run start")
     setisSubmit(false);
     setConsoleMenuOpen(!ConsoleMenuOpen);
     {ConsoleMenuOpen ?  setConsoleMenuOpen(ConsoleMenuOpen) : setConsoleMenuOpen(!ConsoleMenuOpen)}
@@ -221,14 +221,14 @@ export default function Codingpage() {
     // console.log("submission payload ",submissionpayload)
     
     // e.preventDefault();
-    console.log(submissionpayload)
+    // console.log(submissionpayload)
     axiosAuthInstance.post(runendPoint,submissionpayload)
             .then((response) => {
                 // console.log("enter in then ");
                 if (response) {
                     // console.log("enter in then if ");
                    var  data = response.data;
-                   console.log(" op of run => ",data)
+                  //  console.log(" op of run => ",data)
                    setExecutedData(data);
                     // console.log("submission output ",data);
                     // console.log(typeof(data));

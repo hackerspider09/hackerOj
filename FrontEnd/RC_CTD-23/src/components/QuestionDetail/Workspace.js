@@ -26,7 +26,7 @@ const Workspace = () => {
                 // console.log("enter in then ");
                 if (response.status) { 
                     // console.log("enter in then if ");
-                    console.log("from workspace",response.data);
+                    // console.log("from workspace",response.data);
                     setProblems(response.data)
                     const questionDetails = {};  
                   for(let i = 1; i <=response.data.length; i++) {
@@ -47,8 +47,8 @@ const Workspace = () => {
               })
               .catch((error) => {
                 // nav("/question");
-              console.log("enter in error ",error);
-              // console.clear();
+              // console.log("enter in error ",error);
+              console.clear();
             //   setLoading(false);
 
 

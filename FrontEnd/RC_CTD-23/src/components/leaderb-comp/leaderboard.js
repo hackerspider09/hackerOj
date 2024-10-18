@@ -111,7 +111,7 @@ const Leaderboard = () => {
                     //   // console.log("senior")
                     //    jdata = data.seniorLeaderboard;
                     // }
-                    console.log(data);
+                    // console.log(data);
                     // console.log(jdata);
                     
                     // console.log(typeof(data));
@@ -138,8 +138,8 @@ const Leaderboard = () => {
                 }
             })
             .catch((error) => {
-              // console.clear();
-                console.log("enter in error ",error);
+              console.clear();
+                // console.log("enter in error ",error);
 
             })
   },[contestID]);

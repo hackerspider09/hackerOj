@@ -46,7 +46,7 @@ class Graph extends Component {
 
     clearCanvas = () => {
         const svg = d3.select(".myCanvas");
-        console.log(svg);
+        // console.log(svg);
         svg.selectAll('*').remove();
       };
     

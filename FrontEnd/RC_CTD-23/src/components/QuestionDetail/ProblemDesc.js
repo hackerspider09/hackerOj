@@ -39,7 +39,7 @@ const ProblemDesc = ({ problems }) => {
         if (problems) {
             // console.log(problems)
             problems.forEach((problem, index) => {
-                console.log("inside problemdes",problem," ",params)
+                // console.log("inside problemdes",problem," ",params)
                 if (problem.questionId === params.questionId) {
                     setClickedProblems(problem);
                     setClickedProblemId(problem.questionId);

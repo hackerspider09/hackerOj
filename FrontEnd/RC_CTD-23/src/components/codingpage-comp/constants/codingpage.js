@@ -38,30 +38,30 @@ const handleModalContainerClick = () => {
     addAuthToken(getToken());
     AxiosInstance.get(endPoint)
             .then((response) => {
-                console.log("enter in then ");
+                // console.log("enter in then ");
                 if (response.status) {
-                    console.log("enter in then if ");
+                    // console.log("enter in then if ");
                     var data = response.data;
                    
-                    console.log(data);
+                    // console.log(data);
                    
                     
                     
                     setQuesData(data);
 
-                    console.log("data ",typeof(QuesData));
-                    console.log(QuesData);
+                    // console.log("data ",typeof(QuesData));
+                    // console.log(QuesData);
                     //  console.log(response.data.juniorLeaderboard);
 
                 }
                 else {
                     
-                    console.log("Error In fetch");
+                    // console.log("Error In fetch");
                 }
             })
             .catch((error) => {
                 
-                console.log("enter in error ",error);
+                // console.log("enter in error ",error);
 
             })
   },[]);
@@ -81,11 +81,11 @@ const handleModalContainerClick = () => {
     addAuthToken(getToken());
     AxiosInstance.post(subendPoint,submissionpayload)
             .then((response) => {
-                console.log("enter in then ");
+                // console.log("enter in then ");
                 if (response.status) {
-                    console.log("enter in then if ");
+                    // console.log("enter in then if ");
                    var  data = response.data;
-                    console.log(data);
+                    // console.log(data);
                     
                     // console.log(typeof(data));
                     // console.log(typeof(jdata));
@@ -97,12 +97,12 @@ const handleModalContainerClick = () => {
                 }
                 else {
                     
-                    console.log("Error In fetch");
+                    // console.log("Error In fetch");
                 }
             })
             .catch((error) => {
                 
-                console.log("enter in error ",error);
+                // console.log("enter in error ",error);
 
             })
   
@@ -121,7 +121,7 @@ const handleModalContainerClick = () => {
 
   function handleThemeChange(th) {
     const theme = th;
-    console.log("theme...", theme);
+    // console.log("theme...", theme);
 
     if (["light", "vs-dark"].includes(theme.value)) {
       setTheme(theme);
@@ -136,7 +136,7 @@ const handleModalContainerClick = () => {
   }, []);
 
   const onSelectChange = (sl) => {
-    console.log("selected Option...", sl);
+    // console.log("selected Option...", sl);
     setLanguage(sl);
   };
 

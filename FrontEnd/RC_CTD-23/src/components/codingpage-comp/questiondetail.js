@@ -47,7 +47,7 @@ export default function QuestionDetailSection(props){
     // };
     const TakeIpOp = (e) => {
        setIsButtonDisabled(true);
-      console.log("RC run");
+      // console.log("RC run");
       // const id = toast.loading("Build Process Started");
       
       // toast.dark('This is Toast Notification for Dark');
@@ -69,7 +69,7 @@ export default function QuestionDetailSection(props){
           // console.log("enter in then ");
           if (response) {
             setIsButtonDisabled(false);
-              console.log(response.data);
+              // console.log(response.data);
               setOutputText(response.data.output)
               // toast.update(id, { render: "Build Process Finished", type: "success", isLoading: false, autoClose:3000 })
               // <Navigate to="/instruction" />
@@ -86,8 +86,8 @@ export default function QuestionDetailSection(props){
       .catch((error) => {
         toast.error("An error occurred. Please try again later.",{ autoClose: 2000 });
         setIsButtonDisabled(false);
-        // console.clear();
-          console.log(" error => ",error.response);
+        console.clear();
+          // console.log(" error => ",error.response);
       
       })
 

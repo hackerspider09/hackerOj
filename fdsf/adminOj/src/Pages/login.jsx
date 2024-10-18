@@ -16,7 +16,7 @@ export default function Login() {
         password: "",
     }
     
-    const CLASHID = "3d1ce";
+    const CLASHID = "15693";
     const RCID = "3d1ce";
 
     const [Logincred,setLogincred] = useState(defaultCredentials);
@@ -57,7 +57,7 @@ export default function Login() {
             // toast.success('This is Toast Notification for Dark');
             // toast.warn('This is Toast Notification for Warn');
             // toast.error('This is Toast Notification for Error');
-            const id = toast.loading("Plean wait..");  
+            const id = toast.loading("Please wait..");  
             if (!isToggled){
               setContestID(CLASHID);
             }else{
@@ -73,7 +73,7 @@ export default function Login() {
                 // console.log("enter in then ");
                 if (response.status) {
                     // console.log("enter in then if ");
-                    console.log(response)
+                    console.log("log ",response)
                     setLoginBtnClick(false);
                     toast.update(id, { render: "Login Successful.", type: "success", isLoading: false, autoClose:3000 })
                     localStorage.setItem("isLogin", true);
@@ -100,11 +100,12 @@ export default function Login() {
                   }
                 })
                 .catch((error) => {
+                  console.log("eror",error)
                   setLoginBtnClick(false);
                   setIsToggled(false)
                   setContestID(CLASHID)
 
-                  // console.clear();
+                  console.clear();
                 console.log("enter in error +",error);
                 if (error.response?.data?.msg){
                   toast.update(id, { render: error.response.data.msg , type: "error", isLoading: false, autoClose:3000 })

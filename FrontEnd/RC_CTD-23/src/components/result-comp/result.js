@@ -24,7 +24,7 @@ const Result = () => {
                 // console.log("enter in then ");
                 if (response.status) {
                     // console.log("enter in then if ");
-                    console.log(response.data);
+                    // console.log(response.data);
                     var personalR = response.data.personalRank;
                     var top6R = response.data.top6;
                     setResultData(Resultdata => ({
@@ -49,15 +49,15 @@ const Result = () => {
                 }
             })
             .catch((error) => {
-              // console.clear();
-                console.log("enter in error ",error);
+              console.clear();
+                // console.log("enter in error ",error);
 
             })
   },[]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      console.log("Redirecting to login...");
+      // console.log("Redirecting to login...");
       localStorage.clear();
       navigate('/leaderboard');
       window.location.reload(); 

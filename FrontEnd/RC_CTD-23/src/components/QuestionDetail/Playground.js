@@ -48,7 +48,7 @@ const Playground = ({ problems, isForSubmission = true, setSubmitted }) => {
     if (problems) {
         problems.forEach((problem, index) => {
             if (problem.questionId === QuestionId) {
-                console.log("inside playeground ",problem)
+                // console.log("inside playeground ",problem)
               setClickedProblem(problem);
               setClickedProblemId(problem.questionId);
                 setCustomInput(problem.sampleIp);
@@ -142,12 +142,12 @@ useEffect(() => {
       submissionpayload['input']=input;
     }    
     // e.preventDefault();
-    console.log(submissionpayload)
+    // console.log(submissionpayload)
     axiosAuthInstance.post(runendPoint,submissionpayload)
             .then((response) => {
                 if (response) {
                    var  data = response.data;
-                   console.log("run data",data)
+                  //  console.log("run data",data)
                    data['submitted']=false;
                     
                     // submission queued
@@ -160,18 +160,18 @@ useEffect(() => {
 
                     // Show a message when the connection is open
                     socket.onopen = () => {
-                      console.log('WebSocket connection established');
+                      // console.log('WebSocket connection established');
                     };
 
                     // Handle messages received through the WebSocket
                     socket.onmessage = (event) => {
                       
                       const messageData = JSON.parse(event.data);
-                      console.log('Received message:', messageData);
+                      // console.log('Received message:', messageData);
 
                       switch (messageData.type) {
                           case 'status_update':
-                            console.log('Status update:', messageData);
+                            // console.log('Status update:', messageData);
                             toast.update(id, { render: messageData.submission_data.status, type: "success"})
                               // Handle status update message
                               // Update your React state with the status data
@@ -181,7 +181,7 @@ useEffect(() => {
                               toast.update(id, { render: "Submission Executed Successfuly", type: "success", isLoading: false, autoClose:3000 })
                               // Handle final submission data message
                               setOutputDetails(messageData.submission_data)
-                              console.log('Final submission data:', messageData.submission_data);
+                              // console.log('Final submission data:', messageData.submission_data);
                               // Update your React state with the final submission data
                               socket.close();
                               break;
@@ -200,7 +200,7 @@ useEffect(() => {
 
                     // Handle WebSocket closure
                     socket.onclose = () => {
-                      console.log('WebSocket connection closed');
+                      // console.log('WebSocket connection closed');
                     };
 
                     setIsCodeRunning(false);
@@ -235,7 +235,7 @@ useEffect(() => {
       'language': `${language.value}`,
       
     }
-    console.log(submissionpayload)
+    // console.log(submissionpayload)
     axiosAuthInstance.post(subendPoint,submissionpayload)
             .then((response) => {
                 // console.log("enter in then ");
@@ -243,7 +243,7 @@ useEffect(() => {
                     setIsCodeSubmitting(false);
                     // console.log("enter in then if ");
                    var  data = response.data;
-                   console.log("op=> ",data)
+                  //  console.log("op=> ",data)
                   //  data['submitted']=true;
                   //  console.log(" op => ",data)
                   //  setOutputDetails(data);
@@ -258,18 +258,18 @@ useEffect(() => {
 
                     // Show a message when the connection is open
                     socket.onopen = () => {
-                      console.log('WebSocket connection established');
+                      // console.log('WebSocket connection established');
                     };
 
                     // Handle messages received through the WebSocket
                     socket.onmessage = (event) => {
                       
                       const messageData = JSON.parse(event.data);
-                      console.log('Received message:', messageData);
+                      // console.log('Received message:', messageData);
 
                       switch (messageData.type) {
                           case 'status_update':
-                            console.log('Status update:', messageData);
+                            // console.log('Status update:', messageData);
                             toast.update(id, { render: messageData.submission_data.status, type: "success"})
                               // Handle status update message
                               // Update your React state with the status data
@@ -279,7 +279,7 @@ useEffect(() => {
                               toast.update(id, { render: "Submission Executed Successfuly", type: "success", isLoading: false, autoClose:3000 })
                               // Handle final submission data message
                               setOutputDetails(messageData.submission_data)
-                              console.log('Final submission data:', messageData.submission_data);
+                              // console.log('Final submission data:', messageData.submission_data);
                               socket.close();
                               break;
                               
@@ -297,7 +297,7 @@ useEffect(() => {
 
                     // Handle WebSocket closure
                     socket.onclose = () => {
-                      console.log('WebSocket connection closed');
+                      // console.log('WebSocket connection closed');
                     };
 
                     setIsCodeRunning(false);

@@ -9,7 +9,7 @@ function Instruct() {
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const instructions = [ 
     "The following coding competition can be played in THREE languages ",
-    "These rounds consists of 6 questions of in the order of increasing marks. For first right submission, the first participant to submit will receive full marks. For next right submissions, following participants will receive (max-marks)-1, (max-marks)-2 and so on marks.",
+    // "These rounds consists of 6 questions of in the order of increasing marks. For first right submission, the first participant to submit will receive full marks. For next right submissions, following participants will receive (max-marks)-1, (max-marks)-2 and so on marks.",
     "The following contest will consist of two text boxes -a) Input textbox b) Output textbox. Participants are expected to put custom input in textbox and  corresponding output will be generated.",
     "Based on output generated upon customized inputs provided, find the relation, and code it accordingly in the editor provided on the page.",
     "To run the code and check for semantics , Press run button",

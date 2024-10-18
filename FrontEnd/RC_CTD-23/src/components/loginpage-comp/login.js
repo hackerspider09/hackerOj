@@ -172,7 +172,7 @@ return (
       </div>
 
   <div className="flex items-center justify-center my-4">
-      <span className="text-base font-medium text-gray-300">Clash</span>
+      <span className="text-base font-medium text-gray-300">NCC</span>
 
       <div
         className={`mx-2 relative w-11 h-6 rounded-full transition-colors duration-200 ${

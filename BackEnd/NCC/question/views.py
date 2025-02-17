@@ -69,6 +69,11 @@ class QuestionViewSet(viewsets.ReadOnlyModelViewSet):
         return queryset.filter(Q(category= "junior" if team.isJunior else "senior" ) | Q(category="both"),contest = contestId).order_by("questionNumber")  #return  questions filtered with two  conditions
 
 
+
+
+
+
+
 class GetTestcaseView(viewsets.ReadOnlyModelViewSet):
     queryset = Testcase.objects.all()
     serializer_class = TestcaseSerializer

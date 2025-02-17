@@ -28,10 +28,10 @@ class QuestionSerializer(serializers.ModelSerializer):
 
         team = modelsTm.Team.objects.get(Q(user1 = user) | Q(user2 = user),contest=contest_id)
 
-        return modelsSb.Submission.objects.filter(team=team, question=obj, isCorrect=True).exists()
+        return modelsSb.Submission.objects.filter(team=team, question=obj, isCorrect=True,mode="SUB").exists()
         
     def get_accuracy(self,obj):
-        submissions = modelsSb.Submission.objects.filter(question = obj)
+        submissions = modelsSb.Submission.objects.filter(question = obj,mode="SUB")
         
         actual_sub = len(submissions)
         right_sub=len(submissions.filter(isCorrect=True))

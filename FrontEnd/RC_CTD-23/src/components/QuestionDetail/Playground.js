@@ -13,7 +13,7 @@ import axios from "axios";
 import Loader from "./shared/Loader";
 import { useParams } from 'react-router-dom';
 import FontSizeDropdown from "./shared/FontSizeDropdown";
-import { axiosAuthInstance ,CONTEST_ID,API_DOMAIN} from '../../Utils/AxiosConfig';
+import { axiosAuthInstance ,CONTEST_ID,API_DOMAIN, WEBSOCKETURL} from '../../Utils/AxiosConfig';
 import {  toast } from 'react-toastify';
 import { useCustomContext } from "../../context/CustomeContext";
 
@@ -156,7 +156,7 @@ useEffect(() => {
 
 
                     // Establish a WebSocket connection
-                    const socket = new WebSocket(`wss://nccrc.admin.credenz.co.in/ws/submission/${data.submissionId}/`);
+                    const socket = new WebSocket(`${WEBSOCKETURL}/ws/submission/${data.submissionId}/`);
 
                     // Show a message when the connection is open
                     socket.onopen = () => {
@@ -254,7 +254,7 @@ useEffect(() => {
 
 
                     // Establish a WebSocket connection
-                    const socket = new WebSocket(`wss://nccrc.admin.credenz.co.in/ws/submission/${data.submissionId}/`);
+                    const socket = new WebSocket(`${WEBSOCKETURL}/ws/submission/${data.submissionId}/`);
 
                     // Show a message when the connection is open
                     socket.onopen = () => {

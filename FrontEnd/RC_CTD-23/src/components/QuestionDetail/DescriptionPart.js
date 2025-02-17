@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { TiInputChecked ,} from "react-icons/ti";
 import Loader from "./shared/Loader";
-import { axiosAuthInstance ,CONTEST_ID,addAuthToken} from '../../Utils/AxiosConfig';  
+import { axiosAuthInstance ,CONTEST_ID,addAuthToken,WEBSOCKETURL} from '../../Utils/AxiosConfig';  
 import {  toast } from 'react-toastify';
 import CustomInput from "./shared/CustomInput";
 import "./tinymce.css"
@@ -66,7 +66,7 @@ export default function DescriptionPart({questionData}) {
 
 
                     // Establish a WebSocket connection
-                    const socket = new WebSocket(`wss://nccrc.admin.credenz.co.in/ws/submission/${data.submissionId}/`);
+                    const socket = new WebSocket(`${WEBSOCKETURL}/ws/submission/${data.submissionId}/`);
 
                     // Show a message when the connection is open
                     socket.onopen = () => {

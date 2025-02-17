@@ -68,7 +68,12 @@ class LoginApi(generics.CreateAPIView):
                 team = team.first()
             else:
                 # if single user
-                team,created = Team.objects.get_or_create(user1 = user ,contest=contest)
+                team = Team.objects.filter(Q(user1 = user) | Q(user2 = user),contest=contest)
+                if ( not team.exists()):
+                    team,created = Team.objects.get_or_create(user1 = user ,contest=contest)
+                else:
+                    team = team.first()
+                # check if user is in team but if he click isteam to false then check if it is actualy individul or in team and then return his object
 
                  
             try:

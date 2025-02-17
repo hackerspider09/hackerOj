@@ -64,8 +64,24 @@ def judge(container, processor, i, ioput, config):
         )
     except NotFound:
         return Status.ONF, (None, stderr), duration
-    return (
-        Status.AC if output.rstrip() == ioput[1].rstrip() else Status.WA,
-        (output, stderr),
-        duration,
-    )
+    
+    # Replace this line 
+    # return (
+    #     Status.AC if output.rstrip() == ioput[1].rstrip() else Status.WA,
+    #     (output, stderr),
+    #     duration,
+    # )
+
+    # With this block:
+    expected_output_lines = ioput[1].rstrip().splitlines()
+    actual_output_lines = output.rstrip().splitlines()
+
+    # Strip each line of trailing whitespace for comparison
+    stripped_expected = [line.rstrip() for line in expected_output_lines]
+    stripped_actual = [line.rstrip() for line in actual_output_lines]
+
+    # Compare the stripped output line by line
+    if stripped_expected == stripped_actual:
+        return Status.AC, (output, stderr), duration
+    else:
+        return Status.WA, (output, stderr), duration

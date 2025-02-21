@@ -50,11 +50,11 @@ class QuestionViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [IsAuthenticated,TimecheckGlobal]    
     renderer_classes = [JSONRenderer]
 
-    @method_decorator(cache_page(30))  # Cache for 30 sec
+    # @method_decorator(cache_page(30))  # Cache for 30 sec
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
     
-    @method_decorator(cache_page(60*5))  # Cache for 5 min
+    # @method_decorator(cache_page(60*5))  # Cache for 5 min
     def  retrieve(self, request, *args, **kwargs):
         return  super().retrieve(request, *args,**kwargs)
     

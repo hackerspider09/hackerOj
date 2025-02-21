@@ -70,9 +70,9 @@ const Navbar =() => {
                     {/* <ul> { !loggedIn ? <Link to="/register"  className='nav-link' >Register</Link> : "" } </ul> */}
                     <ul> { loggedIn && localStorage.getItem("contractAccept") ? <Link to="/question"  className='nav-link' >QuestionHub</Link> : "" } </ul>
                     <ul> <Link to="/leaderboard"  className='nav-link' >Leaderboard</Link>  </ul>
-                    {/* <ul> { loggedIn ?  "" : <Link to="/register"  className='nav-link' >Register</Link> } </ul> */}
+                    <ul> { loggedIn ?  "" : <Link to="/register"  className='nav-link' >Register</Link> } </ul>
                     <ul> { loggedIn ?  "" : <Link to="/login"  className='nav-link' >Login</Link> } </ul>
-                    {/* <ul> { loggedIn ?  "" : <Link to="/createTeam"  className='nav-link' >Create Team</Link> } </ul> */}
+                    <ul> { loggedIn ?  "" : <Link to="/createTeam"  className='nav-link' >Create Team</Link> } </ul>
                     <ul> {loggedIn && (<button onClick={handleLogout} className = "btn border border-white rounded text-light btnlog">Log Out</button>)} </ul>
         </div>
 

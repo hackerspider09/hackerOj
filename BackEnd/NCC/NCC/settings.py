@@ -28,8 +28,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-27^js#4ds%d(83o46o5&-4(h%!y+302rp8%emx-j*2p&$mmadq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = False
-DEBUG = bool(os.getenv('DEBUG'))
+DEBUG = False
+# DEBUG = bool(os.getenv('DEBUG'))
+# print(DEBUG)
 MODE=os.environ.get('MODE', default="development")
 
 REDIS_HOST=os.getenv('REDIS_HOST')

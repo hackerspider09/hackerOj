@@ -10,9 +10,9 @@ if (localStorage.getItem('contestId')){
 
 
 // export const API_URL = "https://clashrc.admin.credenz.in";
-export const API_URL = "http://192.168.219.139";
-export const API_DOMAIN = "192.168.219.139";
-export const WEBSOCKETURL = "ws://192.168.219.139";
+export const API_URL = "http://localhost";
+export const API_DOMAIN = "localhost";
+export const WEBSOCKETURL = "ws://10.10.13.160";
 
 export const CLASHID = "15693";
 export const RCID = "3d1ce"

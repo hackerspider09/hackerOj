@@ -7,6 +7,7 @@ Judge
 NCC-DB.png
 output.txt
 notes.txt
+script.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

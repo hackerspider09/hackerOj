@@ -18,7 +18,7 @@ def make_post_requests(ip_list, question_list):
 
 # Example IP list and question list
 # ip_list = ["20.197.15.252:9000", "20.197.11.21:9000"]
-ip_list = ["192.168.219.139:9000"]
+ip_list = ["10.10.13.160:9000"]
 
 
 """

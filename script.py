@@ -28,7 +28,5 @@ rc: 58567 09b33 eae63 8d635
 """
 question_list = ["7d187" ,"70fec", "09640", "586fd", "b6f59", "e4e5e", "f67b7"]
 # question_list = ["58567", "09b33", "eae63", "8d635","74a59","1d650","95f53"]
-# question_list = ["addae"]
-# 
 
 make_post_requests(ip_list, question_list)

@@ -54,6 +54,7 @@ class LoginApi(generics.CreateAPIView):
         password = serializer.validated_data.get('password')
         contestId = serializer.validated_data.get('contestId')
         isTeam = serializer.validated_data.get('isTeam')
+        isJunior = serializer.validated_data.get('isJunior')
 
         user = authenticate(username=username, password=password)
         print("user ...",user)
@@ -70,7 +71,7 @@ class LoginApi(generics.CreateAPIView):
                 # if single user
                 team = Team.objects.filter(Q(user1 = user) | Q(user2 = user),contest=contest)
                 if ( not team.exists()):
-                    team,created = Team.objects.get_or_create(user1 = user ,contest=contest)
+                    team,created = Team.objects.get_or_create(user1 = user ,contest=contest,isJunior=isJunior)
                 else:
                     team = team.first()
                 # check if user is in team but if he click isteam to false then check if it is actualy individul or in team and then return his object
@@ -147,7 +148,9 @@ class RegisterSingleUserApiView(viewsets.GenericViewSet,mixins.CreateModelMixin)
             serializer.save()
     
             return Response({'msg':'user created'},status=status.HTTP_201_CREATED)
-        except:
+        except Exception as e:
+            # print(e)
+            
             return Response({'msg':'check username may be exists /contest ID '},status=status.HTTP_400_BAD_REQUEST)
             # return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
@@ -165,7 +168,8 @@ class CreateTeamApiView(viewsets.GenericViewSet,mixins.CreateModelMixin):
             serializer.save()
     
             return Response({'msg':'Team created'},status=status.HTTP_201_CREATED)
-        except:
+        except Exception as e:
+            print(e)
             return Response({'msg':'check username may not be exists /contest ID '},status=status.HTTP_400_BAD_REQUEST)
             # return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 

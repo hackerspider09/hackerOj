@@ -10,6 +10,7 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField(required=True, write_only=True)
     contestId = serializers.CharField(required=True)
     isTeam = serializers.BooleanField(default=False)
+    isJunior = serializers.BooleanField(default=False)
 
     def validate(self, attrs):
         username = attrs.get('username')
@@ -94,10 +95,11 @@ class CreateTeamSerializer(serializers.Serializer):
     username1 = serializers.CharField(max_length=30)
     username2 = serializers.CharField(max_length=30)
     contestId = serializers.CharField(write_only=True)
+    isJunior = serializers.BooleanField(default=False)
 
     class Meta:
         model = Team
-        fields = ['username1', 'username2', 'contestId']
+        fields = ['username1', 'username2', 'contestId','isJunior']
 
     def validate(self, attrs):
         
@@ -138,11 +140,12 @@ class CreateTeamSerializer(serializers.Serializer):
         user1 = User.objects.get(username=validated_data['username1'])
         user2 = User.objects.get(username=validated_data['username2'])
         contest = Contest.objects.get(contestId=validated_data['contestId'])
-
+        print(validated_data,"hello nashe")
         # Create and return the new team
         team = Team.objects.create(
             user1=user1,
             user2=user2,
-            contest=contest
+            contest=contest,
+            isJunior=validated_data['isJunior']
         )
         return team
